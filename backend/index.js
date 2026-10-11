@@ -6,8 +6,15 @@ import { errorHandler } from "./src/middleware/error-handler.js";
 import mainRouter from "./src/api/main.routes.js";
 
 const app = express();
+const PORT = process.env.PORT || 3888;
+
 app.use(cors());
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("API is running");
+});
+
 app.use("/api", mainRouter);
 
 // Final middleware for error handling
@@ -19,8 +26,8 @@ async function startServer() {
     console.log("Db connected");
     connection.release();
 
-    app.listen(3888, () => {
-      console.log("Server is running on http://localhost:3888");
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
     });
   } catch (error) {
     console.error("Error starting server:", error);
